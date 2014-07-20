@@ -134,7 +134,11 @@
  * of the header incompatible.
  */
 #undef	NCURSES_CH_T
-#define NCURSES_CH_T @NCURSES_CH_T@
+#ifdef USE_WIDECHAR
+# define NCURSES_CH_T cchar_t
+#else
+# define NCURSES_CH_T chtype
+#endif
 
 #if @cf_cv_enable_lp64@ && defined(_LP64)
 typedef unsigned chtype;
@@ -385,7 +389,8 @@ typedef struct
 #endif
 }
 cchar_t;
-
+#elif !defined(NCURSES_EXT_COLORS)
+#define NCURSES_EXT_COLORS @NCURSES_PATCH@
 #endif /* NCURSES_WIDECHAR */
 
 #if !NCURSES_OPAQUE
@@ -441,7 +446,7 @@ struct _win_st
 #ifdef NCURSES_WIDECHAR
 	cchar_t  _bkgrnd;	/* current background char/attribute pair */
 #endif
-#ifdef NCURSES_EXT_COLORS
+#if (@NCURSES_EXT_COLORS@ || defined(NCURSES_EXT_COLORS))
 	int	_color;		/* current color-pair for non-space character */
 #endif
 };
@@ -1119,7 +1124,7 @@ extern NCURSES_EXPORT(int) NCURSES_SP_NAME(use_legacy_coding) (SCREEN*, int);	/*
 #define wattroff(win,at)	wattr_off(win, NCURSES_CAST(attr_t, at), NULL)
 
 #if !NCURSES_OPAQUE
-#if defined(NCURSES_WIDECHAR) && @NCURSES_EXT_COLORS@
+#if defined(NCURSES_WIDECHAR) && (@NCURSES_EXT_COLORS@ || defined(NCURSES_EXT_COLORS))
 #define wattrset(win,at)	((win) \
 				  ? ((win)->_color = PAIR_NUMBER(at), \
                                      (win)->_attrs = NCURSES_CAST(attr_t, at), \
@@ -1267,7 +1272,7 @@ extern NCURSES_EXPORT(int) NCURSES_SP_NAME(use_legacy_coding) (SCREEN*, int);	/*
 #define slk_attr_on(a,v)		((v) ? ERR : slk_attron(a))
 
 #if !NCURSES_OPAQUE
-#if defined(NCURSES_WIDECHAR) && @NCURSES_EXT_COLORS@
+#if defined(NCURSES_WIDECHAR) && (@NCURSES_EXT_COLORS@ || defined(NCURSES_EXT_COLORS))
 #define wattr_set(win,a,p,opts)		((win)->_attrs = ((a) & ~A_COLOR), \
 					 (win)->_color = (p), \
 					 OK)

@@ -346,13 +346,6 @@ typedef struct _win_st WINDOW;
 
 typedef	chtype	attr_t;		/* ...must be at least as wide as chtype */
 
-#ifdef __BIONIC__
-/* required to use same libgen */
-#ifndef NCURSES_WIDECHAR
-#define NCURSES_EXT_COLORS
-#endif
-#endif
-
 #ifdef NCURSES_WIDECHAR
 
 #if 0
@@ -362,7 +355,7 @@ typedef	chtype	attr_t;		/* ...must be at least as wide as chtype */
 #include <libutf8.h>
 #endif
 
-#if 0
+#if 1
 #include <wchar.h>		/* ...to get mbstate_t, etc. */
 #endif
 
@@ -396,7 +389,8 @@ typedef struct
 #endif
 }
 cchar_t;
-
+#elif !defined(NCURSES_EXT_COLORS)
+#define NCURSES_EXT_COLORS 20110404
 #endif /* NCURSES_WIDECHAR */
 
 #if !NCURSES_OPAQUE
