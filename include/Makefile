@@ -1,6 +1,6 @@
-# $Id: Makefile.in,v 1.35 2001/12/08 18:50:06 tom Exp $
+# $Id: Makefile.in,v 1.40 2010/11/27 21:45:27 tom Exp $
 ##############################################################################
-# Copyright (c) 1998,2000,2001 Free Software Foundation, Inc.                #
+# Copyright (c) 1998,2009,2010 Free Software Foundation, Inc.                #
 #                                                                            #
 # Permission is hereby granted, free of charge, to any person obtaining a    #
 # copy of this software and associated documentation files (the "Software"), #
@@ -40,6 +40,7 @@
 .SUFFIXES:
 
 SHELL		= /bin/sh
+
 THIS		= Makefile
 
 DESTDIR		= /system
@@ -52,7 +53,10 @@ INSTALL		= /usr/bin/install -c
 INSTALL_DATA	= ${INSTALL} -m 644
 
 AWK		= mawk
-LN_S		= ln -s
+LN_S		= ln -s -f
+
+CTAGS		= ctags
+ETAGS		= etags
 
 VERSION		= 6.0
 
@@ -64,6 +68,7 @@ TERMINFO_CAPS	= $(srcdir)/Caps
 CONFIG_SRC = \
 	MKterm.h.awk \
 	curses.head \
+	ncurses_dll.h \
 	termcap.h \
 	unctrl.h
 
@@ -73,6 +78,7 @@ AUTO_SRC = \
 	hashsize.h \
 	ncurses_def.h \
 	parametrized.h \
+	config.h \
 	term.h
 
 ################################################################################
@@ -104,11 +110,15 @@ ncurses_def.h: $(srcdir)/ncurses_defs $(srcdir)/MKncurses_def.sh
 parametrized.h: $(TERMINFO_CAPS) $(srcdir)/MKparametrized.sh
 	AWK=$(AWK) sh $(srcdir)/MKparametrized.sh $(TERMINFO_CAPS) >$@
 
+# This is required by pthread.h on MinGW
+config.h:
+	touch $@
+
 tags:
-	ctags *.[ch]
+	$(CTAGS) *.[ch]
 
 TAGS:
-	etags *.[ch]
+	$(ETAGS) *.[ch]
 
 mostlyclean ::
 	-rm -f core tags TAGS *~ *.bak *.i *.ln *.atac trace
@@ -117,7 +127,7 @@ clean :: mostlyclean
 	-rm -f $(AUTO_SRC)
 
 distclean :: clean
-	-rm -f Makefile $(CONFIG_SRC)
+	-rm -f Makefile $(CONFIG_SRC) config.h
 
 realclean :: distclean
 
@@ -130,7 +140,7 @@ realclean :: distclean
 #  compat:     yes
 
 ${DESTDIR}${includedir} :
-	sh ${srcdir}/../mkdirs.sh $@
+	mkdir -p $@
 
 install \
 install.libs \
@@ -139,7 +149,7 @@ install.includes :: ${AUTO_SRC} ${DESTDIR}${includedir} \
 		curses.h \
 		unctrl.h \
 		termcap.h \
-		$(srcdir)/ncurses_dll.h \
+		ncurses_dll.h \
 		$(srcdir)/tic.h \
 		$(srcdir)/term_entry.h \
 		$(srcdir)/nc_tparm.h
@@ -148,7 +158,7 @@ install.includes :: ${AUTO_SRC} ${DESTDIR}${includedir} \
 	@ (cd ${DESTDIR}${includedir} && rm -f ncurses.h && ${LN_S} curses.h ncurses.h)
 	@ (cd ${DESTDIR}${includedir} && rm -f unctrl.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} unctrl.h
 	@ (cd ${DESTDIR}${includedir} && rm -f termcap.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} termcap.h
-	@ (cd ${DESTDIR}${includedir} && rm -f ncurses_dll.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} $(srcdir)/ncurses_dll.h
+	@ (cd ${DESTDIR}${includedir} && rm -f ncurses_dll.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} ncurses_dll.h
 	@ (cd ${DESTDIR}${includedir} && rm -f tic.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} $(srcdir)/tic.h
 	@ (cd ${DESTDIR}${includedir} && rm -f term_entry.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} $(srcdir)/term_entry.h
 	@ (cd ${DESTDIR}${includedir} && rm -f nc_tparm.h) ; ../headers.sh ${INSTALL_DATA} ${DESTDIR}${includedir} ${srcdir} $(srcdir)/nc_tparm.h

@@ -272,11 +272,7 @@ _nc_write_entry(TERMTYPE *const tp)
 #endif /* USE_SYMLINKS */
 
     static int call_count;
-#ifdef __BIONIC__
-    static unsigned start_time;
-#else
     static time_t start_time;	/* time at start of writes */
-#endif
 
 #endif /* USE_HASHED_DB */
 

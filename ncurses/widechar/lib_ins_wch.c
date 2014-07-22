@@ -137,7 +137,7 @@ wins_nwstr(WINDOW *win, const wchar_t *wstr, int n)
 		    code = _nc_insert_wch(win, &tmp_cchar);
 		} else {
 		    /* tabs, other ASCII stuff */
-		    code = _nc_insert_ch(win, (chtype) (*cp));
+		    code = _nc_insert_ch(sp, win, (chtype) (*cp));
 		}
 		if (code != OK)
 		    break;

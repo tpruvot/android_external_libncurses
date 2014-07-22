@@ -65,14 +65,14 @@ _nc_wcrtomb(char *target, wchar_t source, mbstate_t * state)
 }
 
 NCURSES_EXPORT(int)
-unget_wch(const wchar_t wch)
+NCURSES_SP_NAME(unget_wch) (NCURSES_SP_DCLx const wchar_t wch)
 {
     int result = OK;
     mbstate_t state;
     size_t length;
     int n;
 
-    T((T_CALLED("unget_wch(%#lx)"), (unsigned long) wch));
+    T((T_CALLED("unget_wch(%p, %#lx)"), (void *) SP_PARM, (unsigned long) wch));
 
     init_mb(state);
     length = _nc_wcrtomb(0, wch, &state);
@@ -87,7 +87,8 @@ unget_wch(const wchar_t wch)
 	    IGNORE_RC((int) wcrtomb(string, wch, &state));
 
 	    for (n = (int) (length - 1); n >= 0; --n) {
-		if (_nc_ungetch(SP, UChar(string[n])) != OK) {
+		if (NCURSES_SP_NAME(ungetch) (NCURSES_SP_ARGx
+					      UChar(string[n])) !=OK) {
 		    result = ERR;
 		    break;
 		}
@@ -102,3 +103,11 @@ unget_wch(const wchar_t wch)
 
     returnCode(result);
 }
+
+#if NCURSES_SP_FUNCS
+NCURSES_EXPORT(int)
+unget_wch(const wchar_t wch)
+{
+    return NCURSES_SP_NAME(unget_wch) (CURRENT_SCREEN, wch);
+}
+#endif

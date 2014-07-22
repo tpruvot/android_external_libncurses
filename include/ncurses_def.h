@@ -221,6 +221,10 @@
 #define HAVE_LONG_FILE_NAMES 0
 #endif
 
+#ifndef HAVE_MATH_H
+#define HAVE_MATH_H 0
+#endif
+
 #ifndef HAVE_MBLEN
 #define HAVE_MBLEN 0
 #endif
@@ -321,6 +325,10 @@
 #define HAVE_RIPOFFLINE 1
 #endif
 
+#ifndef HAVE_SCR_DUMP
+#define HAVE_SCR_DUMP 1
+#endif
+
 #ifndef HAVE_SELECT
 #define HAVE_SELECT 0
 #endif
@@ -339,6 +347,10 @@
 
 #ifndef HAVE_SETVBUF
 #define HAVE_SETVBUF 0
+#endif
+
+#ifndef HAVE_SGTTY_H
+#define HAVE_SGTTY_H 0
 #endif
 
 #ifndef HAVE_SIGACTION
@@ -437,6 +449,10 @@
 #define HAVE_TERMNAME 1
 #endif
 
+#ifndef HAVE_TERM_ENTRY_H
+#define HAVE_TERM_ENTRY_H 1
+#endif
+
 #ifndef HAVE_TERM_H
 #define HAVE_TERM_H 1
 #endif
@@ -533,6 +549,10 @@
 #define HAVE_WRESIZE 0
 #endif
 
+#ifndef HAVE_WSYNCDOWN
+#define HAVE_WSYNCDOWN 1
+#endif
+
 #ifndef HAVE__DOSCAN
 #define HAVE__DOSCAN 0
 #endif
@@ -563,10 +583,6 @@
 
 #ifndef NCURSES_PATHSEP
 #define NCURSES_PATHSEP ':'
-#endif
-
-#ifndef NDEBUG
-#define NDEBUG 0
 #endif
 
 #ifndef NEED_PTEM_H
@@ -659,6 +675,10 @@
 
 #ifndef USE_OK_BCOPY
 #define USE_OK_BCOPY 0
+#endif
+
+#ifndef USE_PTHREADS_EINTR
+#define USE_PTHREADS_EINTR 0
 #endif
 
 #ifndef USE_RCS_IDS

@@ -1,6 +1,6 @@
-# $Id: Makefile.in,v 1.43 2007/03/31 15:54:17 tom Exp $
+# $Id: Makefile.in,v 1.56 2011/02/21 01:09:31 tom Exp $
 ##############################################################################
-# Copyright (c) 1998-2006,2007 Free Software Foundation, Inc.                #
+# Copyright (c) 1998-2010,2011 Free Software Foundation, Inc.                #
 #                                                                            #
 # Permission is hereby granted, free of charge, to any person obtaining a    #
 # copy of this software and associated documentation files (the "Software"), #
@@ -43,38 +43,39 @@
 .SUFFIXES :
 
 SHELL		= /bin/sh
+
 THIS		= Makefile
 
 CF_MFLAGS 	= 
 
 
-DESTDIR		= 
+DESTDIR		= /system
 top_srcdir	= ..
 srcdir		= .
-prefix		= /usr/local
+prefix		= /system
 exec_prefix	= ${prefix}
 bindir		= ${exec_prefix}/bin
 libdir		= ${exec_prefix}/lib
 datadir		= ${prefix}/share
 
-CC		= agcc.pl
-HOSTCC		= gcc
-
 tabsetdir	= $(datadir)/tabset
-ticdir		= /usr/local/share/terminfo
+ticdir		= /etc/terminfo
 ticfile		= $(ticdir).db
 source		= ${top_srcdir}/misc/terminfo.src
 
 INSTALL		= /usr/bin/install -c
-INSTALL_PROG	= ${INSTALL}
+INSTALL_PROGRAM	= ${INSTALL}
+INSTALL_SCRIPT	= ${INSTALL}
 INSTALL_DATA	= ${INSTALL} -m 644
+
+PKG_CONFIG_LIBDIR = /usr/lib/pkgconfig
 
 ################################################################################
 all :	terminfo.tmp
 
 depend :
 
-sources :
+sources :: terminfo.tmp 
 
 install : install.data install.libs
 
@@ -91,8 +92,7 @@ install.data :	terminfo.tmp \
 	datadir=${datadir} \
 	ticdir=${ticdir} \
 	source=terminfo.tmp \
-	THIS_CC="$(CC)" \
-	THAT_CC="$(HOSTCC)" \
+	cross_compiling=no \
 	$(SHELL) ./run_tic.sh
 	@cd $(srcdir)/tabset && \
 		$(SHELL) -c 'for i in * ; do \
@@ -101,10 +101,18 @@ install.data :	terminfo.tmp \
 			$(INSTALL_DATA) $$i $(DESTDIR)$(tabsetdir)/$$i; \
 			fi; done'
 
-NCURSES_CONFIG	= ncurses5-config
+NCURSES_CONFIG	= ncursesw6-config
 
-install.libs : $(DESTDIR)$(bindir) ncurses-config
-	$(INSTALL_PROG) ncurses-config $(DESTDIR)$(bindir)/$(NCURSES_CONFIG)
+install.libs :: $(DESTDIR)$(bindir) ncurses-config
+	$(INSTALL_SCRIPT) ncurses-config $(DESTDIR)$(bindir)/$(NCURSES_CONFIG)
+
+#install.libs :: pc-files $(DESTDIR)$(PKG_CONFIG_LIBDIR)
+#	$(SHELL) -c 'for name in *.pc; do $(INSTALL_DATA) $$name $(DESTDIR)$(PKG_CONFIG_LIBDIR)/$$name; done'
+
+#sources :: pc-files
+#pc-files :
+#	$(SHELL) ./gen-pkgconfig
+#	touch $@
 
 terminfo.tmp : run_tic.sed $(source)
 	echo '** adjusting tabset paths'
@@ -118,8 +126,9 @@ run_tic.sed :
 $(DESTDIR)$(bindir) \
 $(DESTDIR)$(libdir) \
 $(DESTDIR)$(datadir) \
-$(DESTDIR)$(tabsetdir) :
-	$(SHELL) $(top_srcdir)/mkdirs.sh $@
+$(DESTDIR)$(tabsetdir) \
+$(DESTDIR)$(PKG_CONFIG_LIBDIR) :
+	mkdir -p $@
 
 uninstall : uninstall.data uninstall.libs
 
@@ -130,6 +139,7 @@ uninstall.data :
 
 uninstall.libs :
 	-rm -f $(DESTDIR)$(bindir)/$(NCURSES_CONFIG)
+#	$(SHELL) 'for name in *.pc; do rm -f $(DESTDIR)$(PKG_CONFIG_LIBDIR)/$$name; done'
 
 tags :
 
@@ -138,11 +148,13 @@ TAGS :
 mostlyclean :
 	-rm -f terminfo.tmp
 	-rm -f run_tic.sed
+#	-rm -f *.pc pc-files
 	-rm -f core tags TAGS *~ *.bak *.ln *.atac trace
 
 clean :: mostlyclean
 
 distclean : clean
+#	-rm -f gen-pkgconfig
 	-rm -f Makefile run_tic.sh ncurses-config
 
 realclean : distclean

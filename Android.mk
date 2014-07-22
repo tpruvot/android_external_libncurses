@@ -20,12 +20,13 @@ LOCAL_SRC_FILES += \
 	ncurses/lib_keyname.c \
 	ncurses/names.c \
 	ncurses/unctrl.c \
+	langinfo.c
 
 LOCAL_SRC_FILES := $(sort $(LOCAL_SRC_FILES))
 
 LOCAL_CFLAGS := \
 	-DHAVE_CONFIG_H \
-	-DUSE_WIDECHAR -DUSE_WIDEC_SUPPORT=1 \
+	-DUSE_WIDEC_SUPPORT=1 -DHAVE_WCHAR -DUSE_WIDECHAR \
 	-DHAVE_MBLEN -DHAVE_MBTOWC -DHAVE_WCTOMB \
 	-D_XOPEN_SOURCE_EXTENDED=1 \
 	-U_XOPEN_SOURCE -D_XOPEN_SOURCE=500 \
@@ -35,6 +36,7 @@ LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH) \
 	$(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/ncurses \
+	ndk/sources/android/support/include \
 
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libncursesw
@@ -60,14 +62,19 @@ LOCAL_SRC_FILES += ncurses/trace/lib_trace.c \
 		ncurses/lib_keyname.c \
 		ncurses/names.c \
 		ncurses/unctrl.c \
+		langinfo.c
 
 LOCAL_SRC_FILES := $(sort $(LOCAL_SRC_FILES))
 		
-LOCAL_CFLAGS := -DHAVE_CONFIG_H -U_XOPEN_SOURCE -D_XOPEN_SOURCE=500 -U_POSIX_C_SOURCE -D_POSIX_C_SOURCE=199506L -DNDEBUG 
+LOCAL_CFLAGS := -DHAVE_CONFIG_H \
+	-UUSE_WIDECHAR \
+	-U_XOPEN_SOURCE -D_XOPEN_SOURCE=500 \
+	-U_POSIX_C_SOURCE -D_POSIX_C_SOURCE=199506L -DNDEBUG
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
-		$(LOCAL_PATH)/include \
-		$(LOCAL_PATH)/ncurses \
+	$(LOCAL_PATH)/include \
+	$(LOCAL_PATH)/ncurses \
+	ndk/sources/android/support/include \
 
 LOCAL_MODULE_TAGS := eng
 LOCAL_MODULE := libncurses

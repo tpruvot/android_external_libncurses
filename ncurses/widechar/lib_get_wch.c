@@ -42,23 +42,6 @@
 
 MODULE_ID("$Id: lib_get_wch.c,v 1.22 2010/08/28 21:00:35 tom Exp $")
 
-#ifdef reset_mbytes
-#elif HAVE_MBTOWC && HAVE_MBLEN
-#define reset_mbytes(state) mblen(NULL, 0), mbtowc(NULL, NULL, 0)
-#define count_mbytes(buffer,length,state) mblen(buffer,length)
-#define check_mbytes(wch,buffer,length,state) \
-       (int) mbtowc(&wch, buffer, length)
-#define state_unused
-#elif HAVE_MBRTOWC && HAVE_MBRLEN
-#define reset_mbytes(state) init_mb(state)
-#define count_mbytes(buffer,length,state) mbrlen(buffer,length,&state)
-#define check_mbytes(wch,buffer,length,state) \
-       (int) mbrtowc(&wch, buffer, length, &state)
-#else
-make an error
-#endif
-
-
 NCURSES_EXPORT(int)
 wget_wch(WINDOW *win, wint_t *result)
 {
@@ -67,7 +50,7 @@ wget_wch(WINDOW *win, wint_t *result)
     char buffer[(MB_LEN_MAX * 9) + 1];	/* allow some redundant shifts */
     int status;
     size_t count = 0;
-    unsigned long value = 0;
+    int value = 0;
     wchar_t wch;
 #ifndef state_unused
     mbstate_t state;

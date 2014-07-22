@@ -2,7 +2,6 @@
 
 #include <curses.priv.h>
 #include <tic.h>
-#include <term_entry.h>
 
 struct kn { short offset; int code; };
 static const struct kn _nc_key_names[] = {
@@ -321,7 +320,8 @@ static const char key_names[] =
 #define SIZEOF_TABLE 256
 #define MyTable _nc_globals.keyname_table
 
-NCURSES_EXPORT(NCURSES_CONST char *) _nc_keyname (SCREEN *sp, int c)
+NCURSES_EXPORT(NCURSES_CONST char *)
+safe_keyname (SCREEN *sp, int c)
 {
 	int i;
 	char name[20];
@@ -361,14 +361,14 @@ NCURSES_EXPORT(NCURSES_CONST char *) _nc_keyname (SCREEN *sp, int c)
 				result = MyTable[c];
 			}
 #if NCURSES_EXT_FUNCS && NCURSES_XNAMES
-		} else if (result == 0 && cur_term != 0) {
+		} else if (result == 0 && HasTerminal(sp)) {
 			int j, k;
 			char * bound;
-			TERMTYPE *tp = &(cur_term->type);
-			int save_trace = _nc_tracing;
+			TERMTYPE *tp = &(TerminalOf(sp)->type);
+			unsigned save_trace = _nc_tracing;
 
 			_nc_tracing = 0;	/* prevent recursion via keybound() */
-			for (j = 0; (bound = keybound(c, j)) != 0; ++j) {
+			for (j = 0; (bound = NCURSES_SP_NAME(keybound)(NCURSES_SP_ARGx c, j)) != 0; ++j) {
 				for(k = STRCOUNT; k < (int) NUM_STRINGS(tp);  k++) {
 					if (tp->Strings[k] != 0 && !strcmp(bound, tp->Strings[k])) {
 						result = ExtStrname(tp, k, strnames);
@@ -386,9 +386,10 @@ NCURSES_EXPORT(NCURSES_CONST char *) _nc_keyname (SCREEN *sp, int c)
 	return result;
 }
 
-NCURSES_EXPORT(NCURSES_CONST char *) keyname (int c)
+NCURSES_EXPORT(NCURSES_CONST char *)
+keyname (int c)
 {
-	return _nc_keyname(SP, c);
+	return safe_keyname (CURRENT_SCREEN, c);
 }
 
 #if NO_LEAKS

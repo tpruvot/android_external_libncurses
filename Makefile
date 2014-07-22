@@ -1,6 +1,6 @@
-# $Id: Makefile.in,v 1.24 2005/01/29 19:30:06 tom Exp $
+# $Id: Makefile.in,v 1.30 2010/11/27 21:45:27 tom Exp $
 ##############################################################################
-# Copyright (c) 1998-2004,2005 Free Software Foundation, Inc.                #
+# Copyright (c) 1998-2008,2010 Free Software Foundation, Inc.                #
 #                                                                            #
 # Permission is hereby granted, free of charge, to any person obtaining a    #
 # copy of this software and associated documentation files (the "Software"), #
@@ -33,14 +33,18 @@
 
 SHELL = /bin/sh
 
+
 DESTDIR=/system
 CF_MFLAGS =  DESTDIR="$(DESTDIR)"
 
 
 
 NCURSES_MAJOR	= 5
-NCURSES_MINOR	= 7
-NCURSES_PATCH	= 20081102
+NCURSES_MINOR	= 9
+NCURSES_PATCH	= 20110404
+
+top_srcdir	= .
+srcdir		= .
 
 prefix		= /system
 exec_prefix	= ${prefix}
@@ -83,6 +87,13 @@ preinstall :
 		fgrep NCURSES_VERSION $(includedir)/curses.h >/dev/null || \
 		echo '** Will overwrite non-ncurses curses.h'
 
+dlls:	libs
+	$(SHELL) $(srcdir)/mk-dlls.sh
+
+distclean \
+realclean ::
+	-rm -f mk-dlls.sh mingw_arch
+
 # Put the common rules here so that we can easily construct the list of
 # directories to visit.
 all \
@@ -95,7 +106,6 @@ sources \
 tags \
 uninstall \
 install ::
-	cd man && ${MAKE} ${CF_MFLAGS} $@
 	cd include && ${MAKE} ${CF_MFLAGS} $@
 	cd ncurses && ${MAKE} ${CF_MFLAGS} $@
 	cd progs && ${MAKE} ${CF_MFLAGS} $@
@@ -187,11 +197,8 @@ install.libs uninstall.libs \
 install.data uninstall.data ::
 	cd misc && ${MAKE} ${CF_MFLAGS} $@
 
-install.man \
-uninstall.man ::
-	cd man && ${MAKE} ${CF_MFLAGS} $@
-
 distclean ::
 	rm -f config.cache config.log config.status Makefile include/ncurses_cfg.h
 	rm -f headers.sh headers.sed mk_shared_lib.sh
+	rm -f edit_man.* man_alias.*
 	rm -rf ${DIRS_TO_MAKE}

@@ -82,11 +82,10 @@ wbkgrndset(WINDOW *win, const ARG_CH_T ch)
 	 * macro getbkgd() will work.
 	 */
 	{
-	    cchar_t wch = NewChar(BLANK_TEXT);
+	    cchar_t wch;
 	    int tmp;
 
 	    (void) wgetbkgrnd(win, &wch);
-
 	    tmp = _nc_to_char((wint_t) CharOf(wch));
 
 	    win->_bkgd = (((tmp == EOF) ? ' ' : (chtype) tmp)

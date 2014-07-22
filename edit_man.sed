@@ -52,6 +52,7 @@ s/TH \<curs_scanw 3X ""/TH scanw 3NCURSES ""/
 s/TH \<curs_scr_dump 3X ""/TH scr_dump 3NCURSES ""/
 s/TH \<curs_scroll 3X ""/TH scroll 3NCURSES ""/
 s/TH \<curs_slk 3X ""/TH slk 3NCURSES ""/
+s/TH \<curs_sp_funcs 3X ""/TH sp_funcs 3NCURSES ""/
 s/TH \<curs_termattrs 3X ""/TH termattrs 3NCURSES ""/
 s/TH \<curs_termcap 3X ""/TH termcap 3NCURSES ""/
 s/TH \<curs_terminfo 3X ""/TH terminfo 3NCURSES ""/
@@ -59,6 +60,7 @@ s/TH \<curs_threads 3X ""/TH threads 3NCURSES ""/
 s/TH \<curs_touch 3X ""/TH touch 3NCURSES ""/
 s/TH \<curs_trace 3X ""/TH trace 3NCURSES ""/
 s/TH \<curs_util 3X ""/TH util 3NCURSES ""/
+s/TH \<curs_variables 3X ""/TH curses_variables 3NCURSES ""/
 s/TH \<curs_window 3X ""/TH window 3NCURSES ""/
 s/TH \<curses 3X ""/TH ncurses 3NCURSES ""/
 s/TH \<default_colors 3X ""/TH default_colors 3NCURSES ""/
@@ -85,6 +87,7 @@ s/TH \<form_page 3X ""/TH page 3FORM ""/
 s/TH \<form_post 3X ""/TH post 3FORM ""/
 s/TH \<form_requestname 3X ""/TH requestname 3FORM ""/
 s/TH \<form_userptr 3X ""/TH userptr 3FORM ""/
+s/TH \<form_variables 3X ""/TH form_variables 3FORM ""/
 s/TH \<form_win 3X ""/TH win 3FORM ""/
 s/TH \<infocmp 1M ""/TH infocmp 1 ""/
 s/TH \<infotocap 1M ""/TH infotocap 1 ""/
@@ -122,8 +125,10 @@ s/TH \<putc 3S  ""/TH putc 3 ""/
 s/TH \<resizeterm 3X ""/TH resizeterm 3NCURSES ""/
 s/TH \<scanf 3S ""/TH scanf 3 ""/
 s/TH \<system 3S ""/TH system 3 ""/
+s/TH \<tabs 1 ""/TH tabs 1 ""/
 s/TH \<term 5 ""/TH term 5 ""/
 s/TH \<term 7 ""/TH term 7 ""/
+s/TH \<term_variables 3X ""/TH terminfo_variables 3NCURSES ""/
 s/TH \<terminfo 5 ""/TH terminfo 5 ""/
 s/TH \<terminfo \\\*N ""/TH terminfo 5 ""/
 s/TH \<tic 1M ""/TH tic 1 ""/
@@ -140,6 +145,13 @@ s/TH \<termio 7 ""/TH termios 3 ""/
 s/TH \<system 3 ""/TH system 3 ""/
 s/TH \<regcomp 3X ""/TH regcomp 3 ""/
 s/TH \<regexec 3X ""/TH regexec 3 ""/
+s/TH \<adacurses-config 1 ""/TH adacurses-config 1 ""/
+s/TH \<ncurses5-config 1 ""/TH ncurses5-config 1 ""/
+s/TH \<ncursesw5-config 1 ""/TH ncursesw5-config 1 ""/
+s/TH \<ncurses6-config 1 ""/TH ncurses6-config 1 ""/
+s/TH \<ncursesw6-config 1 ""/TH ncursesw6-config 1 ""/
+s/TH \<ncursest6-config 1 ""/TH ncursest6-config 1 ""/
+s/TH \<ncurseswt6-config 1 ""/TH ncurseswt6-config 1 ""/
 # Do the embedded references
 s/\<fBcaptoinfo\\fR(1M)/fBcaptoinfo\\fR(1)/
 s/\<fBclear\\fR(1)/fBclear\\fR(1)/
@@ -194,6 +206,7 @@ s/\<fBcurs_scanw\\fR(3X)/fBscanw\\fR(3NCURSES)/
 s/\<fBcurs_scr_dump\\fR(3X)/fBscr_dump\\fR(3NCURSES)/
 s/\<fBcurs_scroll\\fR(3X)/fBscroll\\fR(3NCURSES)/
 s/\<fBcurs_slk\\fR(3X)/fBslk\\fR(3NCURSES)/
+s/\<fBcurs_sp_funcs\\fR(3X)/fBsp_funcs\\fR(3NCURSES)/
 s/\<fBcurs_termattrs\\fR(3X)/fBtermattrs\\fR(3NCURSES)/
 s/\<fBcurs_termcap\\fR(3X)/fBtermcap\\fR(3NCURSES)/
 s/\<fBcurs_terminfo\\fR(3X)/fBterminfo\\fR(3NCURSES)/
@@ -201,6 +214,7 @@ s/\<fBcurs_threads\\fR(3X)/fBthreads\\fR(3NCURSES)/
 s/\<fBcurs_touch\\fR(3X)/fBtouch\\fR(3NCURSES)/
 s/\<fBcurs_trace\\fR(3X)/fBtrace\\fR(3NCURSES)/
 s/\<fBcurs_util\\fR(3X)/fButil\\fR(3NCURSES)/
+s/\<fBcurs_variables\\fR(3X)/fBcurses_variables\\fR(3NCURSES)/
 s/\<fBcurs_window\\fR(3X)/fBwindow\\fR(3NCURSES)/
 s/\<fBcurses\\fR(3X)/fBncurses\\fR(3NCURSES)/
 s/\<fBdefault_colors\\fR(3X)/fBdefault_colors\\fR(3NCURSES)/
@@ -227,6 +241,7 @@ s/\<fBform_page\\fR(3X)/fBpage\\fR(3FORM)/
 s/\<fBform_post\\fR(3X)/fBpost\\fR(3FORM)/
 s/\<fBform_requestname\\fR(3X)/fBrequestname\\fR(3FORM)/
 s/\<fBform_userptr\\fR(3X)/fBuserptr\\fR(3FORM)/
+s/\<fBform_variables\\fR(3X)/fBform_variables\\fR(3FORM)/
 s/\<fBform_win\\fR(3X)/fBwin\\fR(3FORM)/
 s/\<fBinfocmp\\fR(1M)/fBinfocmp\\fR(1)/
 s/\<fBinfotocap\\fR(1M)/fBinfotocap\\fR(1)/
@@ -264,8 +279,10 @@ s/\<fBputc\\fR(3S )/fBputc\\fR(3)/
 s/\<fBresizeterm\\fR(3X)/fBresizeterm\\fR(3NCURSES)/
 s/\<fBscanf\\fR(3S)/fBscanf\\fR(3)/
 s/\<fBsystem\\fR(3S)/fBsystem\\fR(3)/
+s/\<fBtabs\\fR(1)/fBtabs\\fR(1)/
 s/\<fBterm\\fR(5)/fBterm\\fR(5)/
 s/\<fBterm\\fR(7)/fBterm\\fR(7)/
+s/\<fBterm_variables\\fR(3X)/fBterminfo_variables\\fR(3NCURSES)/
 s/\<fBterminfo\\fR(5)/fBterminfo\\fR(5)/
 s/\<fBterminfo\\fR(\\\*N)/fBterminfo\\fR(5)/
 s/\<fBtic\\fR(1M)/fBtic\\fR(1)/
@@ -282,6 +299,13 @@ s/\<fBtermio\\fR(7)/fBtermios\\fR(3)/
 s/\<fBsystem\\fR(3)/fBsystem\\fR(3)/
 s/\<fBregcomp\\fR(3X)/fBregcomp\\fR(3)/
 s/\<fBregexec\\fR(3X)/fBregexec\\fR(3)/
+s/\<fBadacurses-config\\fR(1)/fBadacurses-config\\fR(1)/
+s/\<fBncurses5-config\\fR(1)/fBncurses5-config\\fR(1)/
+s/\<fBncursesw5-config\\fR(1)/fBncursesw5-config\\fR(1)/
+s/\<fBncurses6-config\\fR(1)/fBncurses6-config\\fR(1)/
+s/\<fBncursesw6-config\\fR(1)/fBncursesw6-config\\fR(1)/
+s/\<fBncursest6-config\\fR(1)/fBncursest6-config\\fR(1)/
+s/\<fBncurseswt6-config\\fR(1)/fBncurseswt6-config\\fR(1)/
 # Do the BxxxR references in the .NAME section
 s/^\\fBcaptoinfo\\f[RP] -/\\fBcaptoinfo\\fR -/
 s/^\\fBclear\\f[RP] -/\\fBclear\\fR -/
@@ -336,6 +360,7 @@ s/^\\fBcurs_scanw\\f[RP] -/\\fBscanw\\fR -/
 s/^\\fBcurs_scr_dump\\f[RP] -/\\fBscr_dump\\fR -/
 s/^\\fBcurs_scroll\\f[RP] -/\\fBscroll\\fR -/
 s/^\\fBcurs_slk\\f[RP] -/\\fBslk\\fR -/
+s/^\\fBcurs_sp_funcs\\f[RP] -/\\fBsp_funcs\\fR -/
 s/^\\fBcurs_termattrs\\f[RP] -/\\fBtermattrs\\fR -/
 s/^\\fBcurs_termcap\\f[RP] -/\\fBtermcap\\fR -/
 s/^\\fBcurs_terminfo\\f[RP] -/\\fBterminfo\\fR -/
@@ -343,6 +368,7 @@ s/^\\fBcurs_threads\\f[RP] -/\\fBthreads\\fR -/
 s/^\\fBcurs_touch\\f[RP] -/\\fBtouch\\fR -/
 s/^\\fBcurs_trace\\f[RP] -/\\fBtrace\\fR -/
 s/^\\fBcurs_util\\f[RP] -/\\fButil\\fR -/
+s/^\\fBcurs_variables\\f[RP] -/\\fBcurses_variables\\fR -/
 s/^\\fBcurs_window\\f[RP] -/\\fBwindow\\fR -/
 s/^\\fBcurses\\f[RP] -/\\fBncurses\\fR -/
 s/^\\fBdefault_colors\\f[RP] -/\\fBdefault_colors\\fR -/
@@ -369,6 +395,7 @@ s/^\\fBform_page\\f[RP] -/\\fBpage\\fR -/
 s/^\\fBform_post\\f[RP] -/\\fBpost\\fR -/
 s/^\\fBform_requestname\\f[RP] -/\\fBrequestname\\fR -/
 s/^\\fBform_userptr\\f[RP] -/\\fBuserptr\\fR -/
+s/^\\fBform_variables\\f[RP] -/\\fBform_variables\\fR -/
 s/^\\fBform_win\\f[RP] -/\\fBwin\\fR -/
 s/^\\fBinfocmp\\f[RP] -/\\fBinfocmp\\fR -/
 s/^\\fBinfotocap\\f[RP] -/\\fBinfotocap\\fR -/
@@ -406,8 +433,10 @@ s/^\\fBputc\\f[RP] -/\\fBputc\\fR -/
 s/^\\fBresizeterm\\f[RP] -/\\fBresizeterm\\fR -/
 s/^\\fBscanf\\f[RP] -/\\fBscanf\\fR -/
 s/^\\fBsystem\\f[RP] -/\\fBsystem\\fR -/
+s/^\\fBtabs\\f[RP] -/\\fBtabs\\fR -/
 s/^\\fBterm\\f[RP] -/\\fBterm\\fR -/
 s/^\\fBterm\\f[RP] -/\\fBterm\\fR -/
+s/^\\fBterm_variables\\f[RP] -/\\fBterminfo_variables\\fR -/
 s/^\\fBterminfo\\f[RP] -/\\fBterminfo\\fR -/
 s/^\\fBterminfo\\f[RP] -/\\fBterminfo\\fR -/
 s/^\\fBtic\\f[RP] -/\\fBtic\\fR -/
@@ -424,3 +453,10 @@ s/^\\fBtermio\\f[RP] -/\\fBtermios\\fR -/
 s/^\\fBsystem\\f[RP] -/\\fBsystem\\fR -/
 s/^\\fBregcomp\\f[RP] -/\\fBregcomp\\fR -/
 s/^\\fBregexec\\f[RP] -/\\fBregexec\\fR -/
+s/^\\fBadacurses-config\\f[RP] -/\\fBadacurses-config\\fR -/
+s/^\\fBncurses5-config\\f[RP] -/\\fBncurses5-config\\fR -/
+s/^\\fBncursesw5-config\\f[RP] -/\\fBncursesw5-config\\fR -/
+s/^\\fBncurses6-config\\f[RP] -/\\fBncurses6-config\\fR -/
+s/^\\fBncursesw6-config\\f[RP] -/\\fBncursesw6-config\\fR -/
+s/^\\fBncursest6-config\\f[RP] -/\\fBncursest6-config\\fR -/
+s/^\\fBncurseswt6-config\\f[RP] -/\\fBncurseswt6-config\\fR -/
